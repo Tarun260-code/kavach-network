@@ -76,23 +76,34 @@ export default function BankDashboardPage() {
     else setGreeting("Good evening");
   }, []);
 
-  // Persona name mapping per spec:
-  // Priya = fraud analyst at Bank A (meridian/sbi)
-  // Rohan = onboarding officer at Bank B (aurum/hdfc)
-  // Meera = consortium governance member (northgate/axis)
-  const personaNames: Record<string, string> = {
-    meridian: "Priya",
-    sbi: "Priya",
+  // Underwriter persona names: Rohan, Akhil, Aasha, Syed, Tarun distributed across consortium banks
+  const underwriterPool = ["Rohan", "Akhil", "Aasha", "Syed", "Tarun"] as const;
+  const bankPersonaMap: Record<string, string> = {
+    meridian: "Tarun",
     aurum: "Rohan",
-    hdfc: "Rohan",
-    northgate: "Meera",
-    axis: "Meera",
-    halcyon: "Aarav",
-    icici: "Aarav",
-    kestrel: "Kavita",
-    pnb: "Kavita",
+    halcyon: "Akhil",
+    northgate: "Aasha",
+    vantage: "Syed",
+    kestrel: "Rohan",
+    sbi: "Rohan",
+    hdfc: "Akhil",
+    icici: "Aasha",
+    axis: "Syed",
+    pnb: "Tarun",
   };
-  const underwriterName = personaNames[bank.id] || "Priya";
+
+  const getUnderwriterName = (id: string): string => {
+    const key = id.toLowerCase();
+    if (bankPersonaMap[key]) return bankPersonaMap[key];
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+      hash = (hash << 5) - hash + key.charCodeAt(i);
+      hash |= 0;
+    }
+    return underwriterPool[Math.abs(hash) % underwriterPool.length];
+  };
+
+  const underwriterName = getUnderwriterName(bank.id);
 
   // Sync flags from on-chain logs for this bank
   useEffect(() => {

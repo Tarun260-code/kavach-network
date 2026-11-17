@@ -6,3 +6,4 @@ typechain-types
 .env*
 circuits/build/*
 !circuits/build/.gitkeep
+*.tsbuildinfo
