@@ -162,8 +162,7 @@ export default function FlagIdentityPage() {
       const signer = getBankSigner(bank.id);
       const registry = getFraudRegistryContract(signer);
 
-      const ttlSeconds = ttlDays * 84600;
-      const tx = await registry.flagIdentity(leafHex, category, ttlSeconds, {
+      const tx = await registry.flagIdentity(leafHex, category, BigInt(ttlDays), {
         value: BigInt(deploymentConfig.flagStake),
       });
 
@@ -345,7 +344,7 @@ export default function FlagIdentityPage() {
                 </div>
               </div>
 
-              {/* Expiry Slider with Day Label */}
+              {/* Expiry Slider with Day Label & Quick Presets (1 to 365 Days) */}
               <div>
                 <div className="flex justify-between items-center mb-1.5 text-xs">
                   <Label htmlFor="ttl-slider" className="font-medium text-muted">
@@ -358,17 +357,36 @@ export default function FlagIdentityPage() {
                 <input
                   id="ttl-slider"
                   type="range"
-                  min="30"
+                  min="1"
                   max="365"
-                  step="15"
+                  step="1"
                   value={ttlDays}
-                  onChange={(e) => setTtlDays(Number(e.target.value))}
+                  onChange={(e) => setTtlDays(Math.max(1, Math.min(365, Number(e.target.value))))}
                   className="w-full h-1.5 bg-subtle rounded-pill appearance-none cursor-pointer accent-primary min-h-[32px]"
                 />
                 <div className="flex justify-between text-[11px] text-muted font-medium mt-1">
-                  <span>30 Days (Standard)</span>
+                  <span>1 Day (Min)</span>
                   <span>180 Days</span>
                   <span>365 Days (Max)</span>
+                </div>
+                {/* Standard Duration Presets */}
+                <div className="flex items-center gap-1.5 pt-2">
+                  <span className="text-[11px] text-muted mr-1">Presets:</span>
+                  {[30, 45, 90, 180, 365].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setTtlDays(preset)}
+                      className={cn(
+                        "text-[11px] font-mono px-2.5 py-0.5 rounded-pill border transition-colors",
+                        ttlDays === preset
+                          ? "bg-primary text-white border-primary font-medium"
+                          : "bg-surface border-hairline text-muted hover:text-ink hover:bg-subtle"
+                      )}
+                    >
+                      {preset}d
+                    </button>
+                  ))}
                 </div>
               </div>
 
