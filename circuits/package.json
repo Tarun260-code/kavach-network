@@ -1,0 +1,13 @@
+{
+  "name": "circuits",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "powershell -ExecutionPolicy Bypass -File ./scripts/setup.ps1"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.5"
+  }
+}
+

@@ -1,0 +1,12 @@
+packages:
+  - contracts
+  - circuits
+  - packages/*
+  - web
+allowBuilds:
+  blake-hash: false
+  keccak: false
+  secp256k1: false
+minimumReleaseAgeExclude:
+  - playwright-core@1.65.0
+onlyBuiltDependencies: []

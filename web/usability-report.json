@@ -1,0 +1,52 @@
+[
+  {
+    "task": "Flag Fraudulent Identity",
+    "persona": "Priya (Bank A Analyst)",
+    "clicks": 2,
+    "timeSeconds": 13.6,
+    "frictionPoints": [
+      "Local Poseidon hashing in RAM prevents cleartext leaks; Escrow 0.05 ETH confirmed"
+    ],
+    "status": "PASSED"
+  },
+  {
+    "task": "Screen Clean Applicant",
+    "persona": "Rohan (Bank B Officer)",
+    "clicks": 2,
+    "timeSeconds": 10.36,
+    "frictionPoints": [
+      "Groth16 Web Worker proving generates zero main-thread jank; Clear verdict in < 2.5s"
+    ],
+    "status": "PASSED"
+  },
+  {
+    "task": "Screen Flagged Applicant",
+    "persona": "Rohan (Bank B Officer)",
+    "clicks": 2,
+    "timeSeconds": 10.38,
+    "frictionPoints": [
+      "Ring Velocity badge surfaces repeat syndicate hits across consortium members"
+    ],
+    "status": "PASSED"
+  },
+  {
+    "task": "Consortium Appeal Governance",
+    "persona": "Meera (Consortium Governance)",
+    "clicks": 1,
+    "timeSeconds": 2.71,
+    "frictionPoints": [
+      "Supermajority progress bar (4/5 quorum) updates with member bank monograms"
+    ],
+    "status": "PASSED"
+  },
+  {
+    "task": "Verify Cryptographic & Privacy Bounds",
+    "persona": "Judge / Security Auditor",
+    "clicks": 1,
+    "timeSeconds": 2.14,
+    "frictionPoints": [
+      "Demonstrates DPDP Act 2023 compliance: cleartext ID never broadcast or indexed"
+    ],
+    "status": "PASSED"
+  }
+]

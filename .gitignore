@@ -1,0 +1,8 @@
+node_modules
+.next
+cache
+artifacts
+typechain-types
+.env*
+circuits/build/*
+!circuits/build/.gitkeep

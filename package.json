@@ -1,0 +1,10 @@
+{
+  "name": "kavach-network",
+  "private": true,
+  "scripts": {
+    "test": "pnpm --filter contracts test",
+    "seed": "pnpm --filter contracts seed",
+    "demo:reset": "pnpm --filter contracts demo-reset",
+    "dev": "pnpm --filter web dev"
+  }
+}
