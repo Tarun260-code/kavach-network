@@ -49,6 +49,7 @@ import {
   deploymentConfig,
   getProvider,
 } from "@/lib/web3";
+import { getNetworkMode } from "@/lib/dataProvider";
 import {
   ensureZkArtifacts,
   checkArtifactsCached,
@@ -205,6 +206,9 @@ function ScreenApplicantContent() {
 
   // Pre-flight check network connectivity
   const checkNetworkPreflight = async (): Promise<boolean> => {
+    if (getNetworkMode() === "replay") {
+      return true;
+    }
     try {
       const provider = getProvider();
       const network = await provider.getNetwork();

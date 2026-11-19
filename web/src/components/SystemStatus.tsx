@@ -23,6 +23,7 @@ import {
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { getProvider, deploymentConfig } from "@/lib/web3";
+import { getNetworkMode } from "@/lib/dataProvider";
 
 export type SystemFailureMode =
   | "node_offline"
@@ -193,6 +194,12 @@ export function SystemStatus({
   const runDiagnostics = useCallback(async () => {
     if (forcedFailure) {
       setActiveFailure(forcedFailure);
+      return;
+    }
+
+    if (getNetworkMode() === "replay") {
+      setActiveFailure(null);
+      setIsChecking(false);
       return;
     }
 

@@ -4,7 +4,10 @@
   "scripts": {
     "test": "pnpm --filter contracts test",
     "seed": "pnpm --filter contracts seed",
+    "snapshot": "pnpm --filter contracts snapshot",
     "demo:reset": "pnpm --filter contracts demo-reset",
-    "dev": "pnpm --filter web dev"
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "build:replay": "node scripts/build-replay.mjs"
   }
 }

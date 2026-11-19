@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, StatusPill, HashChip, Input, Label } from "@/components/ui";
 import { Term } from "@/components/Term";
 import { computeLeaf, normaliseId } from "@kavach/prover";
-import deploymentConfig from "@/generated/deployments.json";
+import { deploymentConfig } from "@/lib/deploymentConfig";
 import {
   Lock,
   Layers,

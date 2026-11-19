@@ -37,6 +37,7 @@ export interface DecisionCardProps {
   root?: string;
   leaf?: string;
   elapsedSeconds?: string | number;
+  verificationLabel?: string;
   onRecordDecision?: (decision: DecisionVerdict) => void;
   onEscalate?: () => void;
   onReset?: () => void;
@@ -158,6 +159,7 @@ export function DecisionCard({
   root,
   leaf,
   elapsedSeconds = "1.42",
+  verificationLabel,
   onRecordDecision,
   onEscalate,
   onReset,
@@ -231,12 +233,12 @@ export function DecisionCard({
           </p>
         </div>
 
-        <div className="shrink-0 flex items-center gap-2">
+        <div className="shrink-0 flex flex-wrap items-center gap-2">
           {isDecline && (
             <StatusPill
               variant="flagged"
               size="default"
-              label={`Decline Recommended • Ring Velocity ${ringVelocity}`}
+              label={`FLAGGED • Decline Recommended (${ringVelocity} banks)`}
               pulse
             />
           )}
@@ -244,7 +246,7 @@ export function DecisionCard({
             <StatusPill
               variant="review"
               size="default"
-              label="Review Required"
+              label="FLAGGED • Review Required"
               pulse
             />
           )}
@@ -252,9 +254,17 @@ export function DecisionCard({
             <StatusPill
               variant="verified"
               size="default"
-              label="Local Screening Clear"
+              label="CLEAR • Local Screening Clear"
               pulse
             />
+          )}
+          {verificationLabel && (
+            <span
+              className="text-[11px] font-mono px-2.5 py-1 rounded-pill bg-subtle text-muted border border-hairline font-semibold"
+              data-testid="verification-label"
+            >
+              {verificationLabel}
+            </span>
           )}
         </div>
       </div>

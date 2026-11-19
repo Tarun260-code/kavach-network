@@ -7,6 +7,7 @@
     "test": "hardhat test",
     "deploy": "hardhat run scripts/deploy.ts --network localhost",
     "seed": "hardhat run scripts/seed.ts --network localhost",
+    "snapshot": "hardhat run scripts/snapshot.ts --network localhost",
     "demo-reset": "hardhat run scripts/demo-reset.ts --network localhost"
   },
   "dependencies": {

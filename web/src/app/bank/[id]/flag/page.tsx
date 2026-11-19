@@ -19,13 +19,14 @@ import {
   getFraudRegistryContract,
   decodeContractError,
 } from "@/lib/web3";
+import { getNetworkMode } from "@/lib/dataProvider";
 import { ConfirmIrreversibleDialog } from "@/components/ConfirmIrreversibleDialog";
 import {
   TxToast,
   TxDrawer,
   TransactionInfo,
 } from "@/components/TransactionLifecycle";
-import deploymentConfig from "@/generated/deployments.json";
+import { deploymentConfig } from "@/lib/deploymentConfig";
 import {
   CheckCircle2,
   AlertTriangle,
@@ -228,6 +229,35 @@ export default function FlagIdentityPage() {
     }
   };
 
+  const networkMode = getNetworkMode();
+
+  const handleSimulate = async () => {
+    try {
+      const norm = normaliseId(validation.normalizedId);
+      const leafBig = await computeLeaf(norm, BigInt(deploymentConfig.consortiumSalt));
+      const leafHex = "0x" + leafBig.toString(16).padStart(64, "0");
+
+      const payload: OnChainPayloadSummary = {
+        leaf: leafHex,
+        txHash: "0xsimulated" + leafHex.slice(10, 26),
+        blockNumber: 42,
+        gasUsed: "92480 (Simulated)",
+      };
+      setLastOnChainPayload(payload);
+      showToast({
+        title: "Simulation, not saved",
+        message: `In-memory Poseidon commitment leaf ${leafHex.slice(0, 10)}... generated for preview. No on-chain transaction recorded.`,
+        type: "info",
+      });
+    } catch (err: any) {
+      showToast({
+        title: "Simulation Failed",
+        message: err.message || "Failed to compute simulated commitment.",
+        type: "error",
+      });
+    }
+  };
+
   // Stepper state calculation
   const hasInput = inputId.length > 0;
   const isIdValid = validation.valid;
@@ -412,15 +442,15 @@ export default function FlagIdentityPage() {
                 </div>
               )}
 
-              {/* Primary Action Button: "Review commitment" */}
-              <div className="pt-2">
+              {/* Primary Action Button: "Review commitment" / "Run locally" */}
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Button
                   type="button"
                   variant="primary"
                   size="lg"
                   disabled={!validation.valid || txState === "pending" || txState === "hashing"}
                   onClick={() => setIsConfirmOpen(true)}
-                  className="w-full sm:w-auto rounded-pill min-h-[44px] px-7 font-medium shadow-subtle"
+                  className="rounded-pill min-h-[44px] px-7 font-medium shadow-subtle"
                 >
                   {txState === "hashing"
                     ? "Computing Poseidon hash in RAM..."
@@ -428,6 +458,19 @@ export default function FlagIdentityPage() {
                     ? "Anchoring on registry..."
                     : "Review commitment"}
                 </Button>
+                {networkMode === "replay" && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    disabled={!validation.valid}
+                    onClick={handleSimulate}
+                    className="rounded-pill min-h-[44px] px-5 font-medium border-dashed border-amber-500/50 text-amber-700 dark:text-amber-300 hover:bg-amber-500/10"
+                    data-testid="preview-simulation-button"
+                  >
+                    Try preview (Simulation, not saved)
+                  </Button>
+                )}
               </div>
             </form>
           </Card>
@@ -586,9 +629,16 @@ export default function FlagIdentityPage() {
             {/* Last On-Chain Anchored Payload Summary */}
             {lastOnChainPayload && (
               <div className="p-3.5 rounded-card bg-semantic-verified-wash border border-semantic-verified/30 space-y-2 text-xs">
-                <div className="flex items-center gap-1.5 font-semibold text-semantic-verified">
-                  <CheckCircle2 className="h-4 w-4" />
-                  <span>Successfully Anchored On-Chain</span>
+                <div className="flex items-center justify-between font-semibold text-semantic-verified">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span>{networkMode === "replay" ? "Simulated Commitment Preview" : "Successfully Anchored On-Chain"}</span>
+                  </div>
+                  {networkMode === "replay" && (
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-pill bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25">
+                      Simulation, not saved
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-1 text-[11px] font-mono text-ink">
                   <div className="flex justify-between">
@@ -614,6 +664,10 @@ export default function FlagIdentityPage() {
           isOpen={isConfirmOpen}
           onClose={() => setIsConfirmOpen(false)}
           onConfirm={executeFlagging}
+          isReplayMode={networkMode === "replay"}
+          replayCommand="pnpm dev"
+          onSimulate={handleSimulate}
+          simulateLabel="Simulation, not saved"
           title="Review Fraud Commitment"
           description="You are anchoring an irreversible one-way commitment in the consortium fraud registry."
           consequences={[

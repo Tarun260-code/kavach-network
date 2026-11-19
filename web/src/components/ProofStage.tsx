@@ -306,6 +306,7 @@ export function ProofStage({
               txHash={result?.txHash}
               root={result?.root}
               elapsedSeconds={elapsedSeconds}
+              verificationLabel={result?.verificationLabel}
               onReset={onReset}
               onEscalate={() => {
                 window.location.href = `/dao?action=appeal&leaf=${encodeURIComponent(result?.leaf || "")}&nullifier=${encodeURIComponent(result?.nullifier || "")}`;

@@ -7,7 +7,7 @@ import { Card, Button, StatusPill, HashChip, Input } from "@/components/ui";
 import { Term } from "@/components/Term";
 import { GLOSSARY, GlossaryEntry } from "@/lib/glossary";
 import { computeLeaf, normaliseId } from "@kavach/prover";
-import deploymentConfig from "@/generated/deployments.json";
+import { deploymentConfig } from "@/lib/deploymentConfig";
 import {
   ShieldCheck,
   Lock,

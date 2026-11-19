@@ -14,7 +14,7 @@ export interface BankSessionContextType {
   balance: string;
   isAuthorized: boolean;
   devLabel: string;
-  signer: ethers.Wallet | null;
+  signer: ethers.Signer | null;
   refreshBalance: () => Promise<void>;
 }
 

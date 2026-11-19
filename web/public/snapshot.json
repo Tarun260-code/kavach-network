@@ -1,0 +1,472 @@
+{
+  "version": "1.0.0",
+  "networkMode": "replay",
+  "exportedAt": "2026-11-19T04:53:56.863Z",
+  "chainId": 31337,
+  "flagStake": "50000000000000000",
+  "consortiumSalt": "888777666555444333222111000999",
+  "contracts": {
+    "FraudRegistry": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "AppealDAO": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "Groth16Verifier": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  },
+  "memberBanks": [
+    {
+      "name": "State Bank of India",
+      "code": "SBI",
+      "address": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+    },
+    {
+      "name": "HDFC Bank",
+      "code": "HDFC",
+      "address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+    },
+    {
+      "name": "ICICI Bank",
+      "code": "ICICI",
+      "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906"
+    },
+    {
+      "name": "Axis Bank",
+      "code": "AXIS",
+      "address": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65"
+    },
+    {
+      "name": "Punjab National Bank",
+      "code": "PNB",
+      "address": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc"
+    }
+  ],
+  "tree": {
+    "depth": 20,
+    "root": "0x03cc45205ddfa6cdc53d8678b40c9eee6a2dea7ba11b4d80359c3b8c3498dc69",
+    "numberOfLeaves": 12,
+    "leaves": [
+      "0x17056ef0cf3a81d4e6f5b3838b9bb107333a02d311e71b572bad846a32624bd4",
+      "0x09580109451b2a229161f74579febe5fa53150483de7b9e0e6b84e48f2239ffb",
+      "0x1b9857656f17eef7e284a60f62aaef348bab45cda70e63b7b8cc7cf71232df22",
+      "0x25e358291f3e04f40455e642f5c85565010f53af741e334750e26e19f1ec6379",
+      "0x1ce717d0ac75c1ad9233d8e837e1c371177b4061b0b87a9bcd8dd9edd409cc15",
+      "0x08b93f8aa17c250f0e08376dd40efafb14795e5cc7347d9f4c215bd952ccdeb9",
+      "0x1d4188383e414d4c3fee3a431f7c63ec9911b3f42d22a6f16931b7b46f253399",
+      "0x00eccd7f50beea9cdff45f14251688aaa1949d4c96ca46d2dc3aea8f97f022b4",
+      "0x2627b3cffb379a081c390d36950a33dc0927f8aa6f4602f52ab8101a6831b727",
+      "0x0f13250f3bfd8811290b65edaea496311176f0c9246a1cbff3681e0eb28decb1",
+      "0x15ba19a192b2027468c5b5f1d951f501208f631e654f2dca6229d66e5bdfffc4",
+      "0x16f887c66a716c8b904c549ba98799ef66761caf1728371831f3a925db6bc871"
+    ]
+  },
+  "rootHistory": [
+    "0x2134e76ac5d21aab186c2be1dd8f84ee880a1e46eaf712f9d371b6df22191f3e",
+    "0x124ae56993439312440e3b3d9a64e84f803a9539d0ff6e246bba667de8d3e08f",
+    "0x1860e92d24c01c812efc98e88b1c25700fb856d2f6ec0124cacdb89c2fa5744c",
+    "0x16e3a2f9cc82811ac8697b9ff486c7819d333487a6f76309ebf089c1793eafeb",
+    "0x1ac524d4dda6e82dfa2d71ea59404ab816745c08353d1c27c036f9123aca3983",
+    "0x07a1adee718b79e1a051d2cfe2c312912c2649098023d051aea4e818b192449e",
+    "0x2ea47b3bb42b0365f16cdff174be5d459e3c70079c318d4353077d4cb75a3b05",
+    "0x1e3642828211848d2cd735402f7874e21dea523683f514cb998cdd2e8f932995",
+    "0x1fed29af85b3112f27a3cdc767dd8cfcba261f42097a84a473332564ef395bd7",
+    "0x09ceb09ecdd9319ca371cae81967fe3cfa24a48c4a761429264b70c7dcb539cb",
+    "0x2a6f81c3150a3326ecc77d263e5201872c30af4b7bc7ecdb0bdb45b950231169",
+    "0x24042ab8f3581ac3d0a475f32e90e6464a5142f0a9fc1033e0a8ab610df92dc7",
+    "0x03cc45205ddfa6cdc53d8678b40c9eee6a2dea7ba11b4d80359c3b8c3498dc69"
+  ],
+  "events": {
+    "flags": [
+      {
+        "leaf": "0x17056ef0cf3a81d4e6f5b3838b9bb107333a02d311e71b572bad846a32624bd4",
+        "index": 0,
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "category": 0,
+        "newRoot": "0x124ae56993439312440e3b3d9a64e84f803a9539d0ff6e246bba667de8d3e08f",
+        "blockNumber": 11,
+        "txHash": "0xde402e823c94555880b2c3743cf1e45dcc18079e17d11ef6286bfbecc1c19297",
+        "timestamp": 1795063752
+      },
+      {
+        "leaf": "0x09580109451b2a229161f74579febe5fa53150483de7b9e0e6b84e48f2239ffb",
+        "index": 1,
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "category": 1,
+        "newRoot": "0x1860e92d24c01c812efc98e88b1c25700fb856d2f6ec0124cacdb89c2fa5744c",
+        "blockNumber": 16,
+        "txHash": "0xa6c69ba370aeca7146b155d0b52b6403f53cae54fa26c7655783d8f4645ed4c3",
+        "timestamp": 1795063766
+      },
+      {
+        "leaf": "0x1b9857656f17eef7e284a60f62aaef348bab45cda70e63b7b8cc7cf71232df22",
+        "index": 2,
+        "bank": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "category": 2,
+        "newRoot": "0x16e3a2f9cc82811ac8697b9ff486c7819d333487a6f76309ebf089c1793eafeb",
+        "blockNumber": 18,
+        "txHash": "0xdb2b23bf814af44d505a6624efe1636c6b9fed3792206fd2f6e39c1218e6932d",
+        "timestamp": 1795063768
+      },
+      {
+        "leaf": "0x25e358291f3e04f40455e642f5c85565010f53af741e334750e26e19f1ec6379",
+        "index": 3,
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "category": 3,
+        "newRoot": "0x1ac524d4dda6e82dfa2d71ea59404ab816745c08353d1c27c036f9123aca3983",
+        "blockNumber": 19,
+        "txHash": "0x26907cd3db9750babf186f9e9cd1adade13dc6854db3253d59d12eda1d4bf428",
+        "timestamp": 1795063769
+      },
+      {
+        "leaf": "0x1ce717d0ac75c1ad9233d8e837e1c371177b4061b0b87a9bcd8dd9edd409cc15",
+        "index": 4,
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "category": 0,
+        "newRoot": "0x07a1adee718b79e1a051d2cfe2c312912c2649098023d051aea4e818b192449e",
+        "blockNumber": 20,
+        "txHash": "0xa7bb2c2b57b12833c4e9b6752f7b2ff6bd71f84676a028c4bd373045b520af87",
+        "timestamp": 1795063770
+      },
+      {
+        "leaf": "0x08b93f8aa17c250f0e08376dd40efafb14795e5cc7347d9f4c215bd952ccdeb9",
+        "index": 5,
+        "bank": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "category": 1,
+        "newRoot": "0x2ea47b3bb42b0365f16cdff174be5d459e3c70079c318d4353077d4cb75a3b05",
+        "blockNumber": 21,
+        "txHash": "0x17dfca8ed956e489ac585fb78b02a6d77a7183d4ee5a0a7e9e2e02213834a59d",
+        "timestamp": 1795063771
+      },
+      {
+        "leaf": "0x1d4188383e414d4c3fee3a431f7c63ec9911b3f42d22a6f16931b7b46f253399",
+        "index": 6,
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "category": 2,
+        "newRoot": "0x1e3642828211848d2cd735402f7874e21dea523683f514cb998cdd2e8f932995",
+        "blockNumber": 22,
+        "txHash": "0x2c0ca4f39e071a6ca5d7e3e3140d58c9b9c6ddc9181c50a764a33f203e3e1b73",
+        "timestamp": 1795063772
+      },
+      {
+        "leaf": "0x00eccd7f50beea9cdff45f14251688aaa1949d4c96ca46d2dc3aea8f97f022b4",
+        "index": 7,
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "category": 3,
+        "newRoot": "0x1fed29af85b3112f27a3cdc767dd8cfcba261f42097a84a473332564ef395bd7",
+        "blockNumber": 23,
+        "txHash": "0x401ccfaa7b5a1fe89d66d57d40c7c4b8bacd1fe7c20509558c08858b4ab10479",
+        "timestamp": 1795063773
+      },
+      {
+        "leaf": "0x2627b3cffb379a081c390d36950a33dc0927f8aa6f4602f52ab8101a6831b727",
+        "index": 8,
+        "bank": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "category": 0,
+        "newRoot": "0x09ceb09ecdd9319ca371cae81967fe3cfa24a48c4a761429264b70c7dcb539cb",
+        "blockNumber": 24,
+        "txHash": "0xf0ab35c291f4e4f88ca2e1f13a6397f4571cf01ca12cdcc444bc9110b56d4008",
+        "timestamp": 1795063774
+      },
+      {
+        "leaf": "0x0f13250f3bfd8811290b65edaea496311176f0c9246a1cbff3681e0eb28decb1",
+        "index": 9,
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "category": 1,
+        "newRoot": "0x2a6f81c3150a3326ecc77d263e5201872c30af4b7bc7ecdb0bdb45b950231169",
+        "blockNumber": 25,
+        "txHash": "0x19a3659e24b72c59ddb55c50b666ae41d73f4f3e251f6378a87ca1e9c2ccf254",
+        "timestamp": 1795063775
+      },
+      {
+        "leaf": "0x15ba19a192b2027468c5b5f1d951f501208f631e654f2dca6229d66e5bdfffc4",
+        "index": 10,
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "category": 2,
+        "newRoot": "0x24042ab8f3581ac3d0a475f32e90e6464a5142f0a9fc1033e0a8ab610df92dc7",
+        "blockNumber": 26,
+        "txHash": "0xee30f9e866efee110568113a3f1565f6ce4693fbdcbf7be23f5f465236a592d4",
+        "timestamp": 1795063776
+      },
+      {
+        "leaf": "0x16f887c66a716c8b904c549ba98799ef66761caf1728371831f3a925db6bc871",
+        "index": 11,
+        "bank": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+        "category": 3,
+        "newRoot": "0x03cc45205ddfa6cdc53d8678b40c9eee6a2dea7ba11b4d80359c3b8c3498dc69",
+        "blockNumber": 27,
+        "txHash": "0xd147b5ebfcdbfe9fd3649aab3b8c699ad8f8be22ceac3ddb95662808bb746bb8",
+        "timestamp": 1795063777
+      }
+    ],
+    "hits": [
+      {
+        "nullifier": "0x19a99ebe59f74691b30b13832429803aa7baac8b15cd7c0e85bd7e46a3fb91a8",
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "distinctBanks": 1,
+        "blockNumber": 13,
+        "txHash": "0x37fbec0199442c4315c0225ed380a8ab577182bfb1cc66c921b8d3591b811051",
+        "timestamp": 1795063763
+      },
+      {
+        "nullifier": "0x19a99ebe59f74691b30b13832429803aa7baac8b15cd7c0e85bd7e46a3fb91a8",
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "distinctBanks": 2,
+        "blockNumber": 14,
+        "txHash": "0x14dc88abdf02b04f1b7dc4914697657025bd80b5d3e67e22ef0c5061dc92c30a",
+        "timestamp": 1795063764
+      },
+      {
+        "nullifier": "0x19a99ebe59f74691b30b13832429803aa7baac8b15cd7c0e85bd7e46a3fb91a8",
+        "bank": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "distinctBanks": 3,
+        "blockNumber": 15,
+        "txHash": "0x0b67f644e27ed41454492c40579e7e9c7c577ff813ea724175ebfd5938952831",
+        "timestamp": 1795063765
+      },
+      {
+        "nullifier": "0x1789cd328ab522986bb7af0f68f318d5068e688749048a289c0ebaaa07b1588b",
+        "bank": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "distinctBanks": 1,
+        "blockNumber": 17,
+        "txHash": "0x54a41c1e5f457b64a2c9def7794ebbac1cccd9f01a51df3757486e98e8c30e11",
+        "timestamp": 1795063767
+      }
+    ],
+    "revocations": [],
+    "appealCreated": [
+      {
+        "appealId": 1,
+        "leaf": "0x16f887c66a716c8b904c549ba98799ef66761caf1728371831f3a925db6bc871",
+        "reportingBank": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
+        "appellant": "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
+        "evidenceURI": "1795322978",
+        "blockNumber": 28,
+        "txHash": "0x4c19c85d796dc723bbaefe12cf7d2240155331c1e49d524151fbf09b3980446d",
+        "timestamp": 1795063778
+      }
+    ],
+    "appealVoted": [
+      {
+        "appealId": 1,
+        "bank": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "support": true,
+        "currentVotesFor": 1,
+        "blockNumber": 29,
+        "txHash": "0x64a83eae2a8547dc2170378e3dda6805cc93c3167ee9977ca817a99e293d0bb4",
+        "timestamp": 1795063779
+      },
+      {
+        "appealId": 1,
+        "bank": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "support": true,
+        "currentVotesFor": 2,
+        "blockNumber": 30,
+        "txHash": "0x3665178d136f72a2b3b8777c1f438d21a66032b03d579b01a0fdf217960f0b6f",
+        "timestamp": 1795063780
+      }
+    ],
+    "appealExecuted": []
+  },
+  "appeals": [
+    {
+      "id": 1,
+      "leaf": "0x16f887c66a716c8b904c549ba98799ef66761caf1728371831f3a925db6bc871",
+      "evidenceURI": "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
+      "votesFor": 2,
+      "votesAgainst": 0,
+      "createdAt": 1795063778,
+      "deadline": 1795322978,
+      "status": 0
+    }
+  ],
+  "seedIdentities": [
+    {
+      "id": "BKUPG8492Q",
+      "type": "PAN",
+      "bankName": "State Bank of India",
+      "bankCode": "SBI",
+      "bankAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "category": 0,
+      "categoryName": "Synthetic ID",
+      "reason": "Synthetic Identity Ring - Multiple Unsecured Personal Loan Stacking across Lenders",
+      "leaf": "10412795437048078755293430253369381018767524269382925645694165967751144950740",
+      "nullifier": "11607513976316383593881808930276489164050800645407409456278929105656380887464",
+      "leafIndex": 0,
+      "ringVelocity": 3,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "987654321012",
+      "type": "AADHAAR",
+      "bankName": "HDFC Bank",
+      "bankCode": "HDFC",
+      "bankAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "category": 1,
+      "categoryName": "Mule Account",
+      "reason": "Mule Account Funnel - Cross-Border Cyberfraud & UPI Smurfing Infiltration",
+      "leaf": "4226305330613485100559248036452642977553340375079634892877741520093804994555",
+      "nullifier": "10646669785895801932981652003949738502842134900631104841796702326207477274763",
+      "leafIndex": 1,
+      "ringVelocity": 1,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "XYZAB5678M",
+      "type": "PAN",
+      "bankName": "ICICI Bank",
+      "bankCode": "ICICI",
+      "bankAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "category": 2,
+      "categoryName": "Loan Stacking",
+      "reason": "Circular Invoice Round-Tripping & Fabricated GST Input Tax Credit Fraud",
+      "leaf": "12481610852180801099107855663226133414967849223004288800410030033111929249570",
+      "nullifier": "13150348816075267242498512563466191671708475753602216929791840560519634417884",
+      "leafIndex": 2,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "829301928374",
+      "type": "AADHAAR",
+      "bankName": "State Bank of India",
+      "bankCode": "SBI",
+      "bankAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "category": 3,
+      "categoryName": "Document Forgery",
+      "reason": "Tampered Aadhaar Offline e-KYC XML with Mismatched Name & Biometric Age",
+      "leaf": "17137258143612074857252987499424086411064008833759304092420947852080676889465",
+      "nullifier": "17123383676127972002104704814592768618510208239772294712703935873444295686427",
+      "leafIndex": 3,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "ABCDE1234F",
+      "type": "PAN",
+      "bankName": "HDFC Bank",
+      "bankCode": "HDFC",
+      "bankAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "category": 0,
+      "categoryName": "Synthetic ID",
+      "reason": "Algorithmically Generated PAN with Fabricated Tier-1 Employer Payroll Slips",
+      "leaf": "13073065798292305008746505661495883212414863587812440158000552121392037481493",
+      "nullifier": "8225473303090257708416107435732855904869128428027497950012565941266633318577",
+      "leafIndex": 4,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "456789012345",
+      "type": "AADHAAR",
+      "bankName": "ICICI Bank",
+      "bankCode": "ICICI",
+      "bankAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "category": 1,
+      "categoryName": "Mule Account",
+      "reason": "Dormant Rural Savings Account Converted to Offshore Betting Payment Gateway",
+      "leaf": "3945808043148969231389297419320119773259744850132984423801600982562072485561",
+      "nullifier": "13385845079602397959444279773280938686753341621364471364704513158019560466661",
+      "leafIndex": 5,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "LMNOP9876Q",
+      "type": "PAN",
+      "bankName": "State Bank of India",
+      "bankCode": "SBI",
+      "bankAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "category": 2,
+      "categoryName": "Loan Stacking",
+      "reason": "Simultaneous 8-Bank Digital Personal Loan Application Blast within 2 Hours",
+      "leaf": "13232857821941722866723962791148591629134993846763292815271036060931442684825",
+      "nullifier": "15520733917015396173714223345396107675764075633412984669853788914880657040780",
+      "leafIndex": 6,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "234567890123",
+      "type": "AADHAAR",
+      "bankName": "HDFC Bank",
+      "bankCode": "HDFC",
+      "bankAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "category": 3,
+      "categoryName": "Document Forgery",
+      "reason": "Counterfeit Electricity Bill & Registered Rent Agreement Address Fabrication",
+      "leaf": "418394197705539303668246024689774905962093068309267917944800364724407509684",
+      "nullifier": "14221177753853849010815473926203928789459618508226193193655536158758535195736",
+      "leafIndex": 7,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "QRSTU5432V",
+      "type": "PAN",
+      "bankName": "ICICI Bank",
+      "bankCode": "ICICI",
+      "bankAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "category": 0,
+      "categoryName": "Synthetic ID",
+      "reason": "Ghost Director Profile with Non-Existent MCA Incorporation Records",
+      "leaf": "17258036301451773773979127680302148633038273095478600021806358713589130442535",
+      "nullifier": "16406647185686322516267298046170006589308299920506464976893989142637879455460",
+      "leafIndex": 8,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "678901234567",
+      "type": "AADHAAR",
+      "bankName": "State Bank of India",
+      "bankCode": "SBI",
+      "bankAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "category": 1,
+      "categoryName": "Mule Account",
+      "reason": "College Student Account Used for Rapid High-Volume Crypto P2P Smurfing",
+      "leaf": "6818518598311538408968274884385191298799636667918346254622773222252837989553",
+      "nullifier": "10103487074086502839305088874965067289079507175397045107449767431375339272389",
+      "leafIndex": 9,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "WXYZK8765T",
+      "type": "PAN",
+      "bankName": "HDFC Bank",
+      "bankCode": "HDFC",
+      "bankAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "category": 2,
+      "categoryName": "Loan Stacking",
+      "reason": "Cross-Lender Working Capital Revolving Credit Over-Leverage Scheme",
+      "leaf": "9827380273956280297489035763975737559010275542247090643807215691176991522756",
+      "nullifier": "11919942706581995621707565168366755118790741709803969454601411641225158539641",
+      "leafIndex": 10,
+      "ringVelocity": 0,
+      "status": "Active",
+      "isDemoSeed": true
+    },
+    {
+      "id": "DISP99999P",
+      "type": "PAN",
+      "bankName": "Axis Bank",
+      "bankCode": "AXIS",
+      "bankAddress": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+      "category": 3,
+      "categoryName": "Document Forgery",
+      "reason": "Disputed Identity Theft - Stolen PAN Used for Fraudulent Credit Card Issuance",
+      "leaf": "10389997825932919525863260126453256322621170610553363887332479601944614914161",
+      "nullifier": "10058180946303617556555393015860983514457404842474557158149696741757622609093",
+      "leafIndex": 11,
+      "ringVelocity": 0,
+      "status": "Disputed",
+      "isDemoSeed": true
+    }
+  ]
+}

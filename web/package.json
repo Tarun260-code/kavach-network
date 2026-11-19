@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:replay": "node ../scripts/build-replay.mjs",
     "start": "next start",
     "test:e2e": "playwright test"
   },

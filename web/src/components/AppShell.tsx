@@ -58,6 +58,7 @@ import { KeyboardShortcuts } from "./KeyboardShortcuts";
 import { GuidedTour } from "./GuidedTour";
 import { useToast } from "./Toast";
 import { cn } from "@/lib/utils";
+import { getNetworkMode } from "@/lib/dataProvider";
 
 const BANK_INITIALS_MAP: Record<string, string> = {
   meridian: "MB",
@@ -84,6 +85,7 @@ export function AppShell({ children, activeBankId, pageTitle }: AppShellProps) {
   const pathname = usePathname();
   const { bankId, setBankId, bank, address, devLabel, balance } = useBankSession();
   const { showToast } = useToast();
+  const networkMode = getNetworkMode();
 
   const [collapsed, setCollapsed] = useState(false);
   const [bankPopoverOpen, setBankPopoverOpen] = useState(false);
@@ -119,6 +121,10 @@ export function AppShell({ children, activeBankId, pageTitle }: AppShellProps) {
     let mounted = true;
     const fetchBlock = async () => {
       try {
+        if (getNetworkMode() === "replay") {
+          if (mounted) setBlockHeight(31);
+          return;
+        }
         const p = getProvider();
         const b = await p.getBlockNumber();
         if (mounted && b) setBlockHeight(b);
@@ -455,10 +461,22 @@ export function AppShell({ children, activeBankId, pageTitle }: AppShellProps) {
             <div className="flex items-center justify-between text-xs px-2 py-1.5 rounded-card bg-subtle/40 border border-hairline">
               <span className="flex items-center gap-2 text-ink font-medium">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span
+                    className={cn(
+                      "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
+                      networkMode === "replay" ? "bg-amber-400" : "bg-emerald-400"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "relative inline-flex rounded-full h-2 w-2",
+                      networkMode === "replay" ? "bg-amber-500" : "bg-emerald-500"
+                    )}
+                  />
                 </span>
-                <span className="text-[11px]">Network healthy</span>
+                <span className="text-[11px]">
+                  {networkMode === "replay" ? "Snapshot replay" : "Network healthy"}
+                </span>
               </span>
               <Link
                 href="/trust"
@@ -526,8 +544,23 @@ export function AppShell({ children, activeBankId, pageTitle }: AppShellProps) {
             </div>
           </div>
 
-          {/* Right Controls: Search, Small Status Dot, Bell, Avatar Menu */}
+          {/* Right Controls: Replay Pill, Search, Small Status Dot, Bell, Avatar Menu */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Demo Snapshot Calm Pill (Replay Mode) */}
+            {networkMode === "replay" && (
+              <a
+                href="https://github.com/Tarun260-code/kavach-network#quickstart"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="replay-pill"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill text-[11px] font-medium bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 hover:bg-amber-500/20 transition-colors shadow-xs"
+                title="This hosted demo replays recorded data. Run locally for live transactions."
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                <span>Demo snapshot (read-only)</span>
+              </a>
+            )}
+
             {/* Global Search / Command Palette Trigger (No Actions label) */}
             <button
               type="button"
@@ -545,16 +578,30 @@ export function AppShell({ children, activeBankId, pageTitle }: AppShellProps) {
               </kbd>
             </button>
 
-            {/* Small Status Dot with Tooltip ("Network healthy") */}
+            {/* Small Status Dot with Tooltip */}
             <div
               className="flex items-center justify-center p-2 rounded-full hover:bg-subtle/50 transition-colors cursor-help min-h-[36px] min-w-[36px]"
-              title="Network healthy • Block #31 synced"
+              title={
+                networkMode === "replay"
+                  ? "Demo snapshot (read-only) • Replaying Block #31"
+                  : `Network healthy • Block #${blockHeight} synced`
+              }
               role="status"
-              aria-label="Network healthy"
+              aria-label={networkMode === "replay" ? "Demo snapshot (read-only)" : "Network healthy"}
             >
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                <span
+                  className={cn(
+                    "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
+                    networkMode === "replay" ? "bg-amber-400" : "bg-emerald-400"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "relative inline-flex rounded-full h-2.5 w-2.5",
+                    networkMode === "replay" ? "bg-amber-500" : "bg-emerald-500"
+                  )}
+                />
               </span>
             </div>
 

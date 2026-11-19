@@ -7,3 +7,6 @@ typechain-types
 circuits/build/*
 !circuits/build/.gitkeep
 *.tsbuildinfo
+deployments.json
+test-results/
+playwright-report/

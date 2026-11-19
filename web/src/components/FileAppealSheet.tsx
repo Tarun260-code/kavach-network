@@ -16,6 +16,7 @@ import {
 } from "./ui";
 import { useBankSession } from "@/context/BankSessionContext";
 import { getBankSigner, getAppealDAOContract, decodeContractError } from "@/lib/web3";
+import { getNetworkMode } from "@/lib/dataProvider";
 import { useToast } from "./Toast";
 import { ActiveFlagItem } from "@/hooks/useRegistryEvents";
 import { Scale, AlertTriangle, ShieldCheck, FileText, CheckCircle2 } from "lucide-react";
@@ -247,7 +248,7 @@ export function FileAppealSheet({
         </div>
 
         {/* Footer Actions */}
-        <div className="pt-6 border-t border-hairline flex items-center justify-end gap-3">
+        <div className="pt-6 border-t border-hairline flex flex-wrap items-center justify-end gap-3">
           {step === "review" ? (
             <>
               <Button
@@ -258,14 +259,53 @@ export function FileAppealSheet({
               >
                 Back
               </Button>
-              <Button
-                variant="primary"
-                size="default"
-                onClick={handleSubmit}
-                loading={isSubmitting}
-              >
-                Confirm & broadcast appeal
-              </Button>
+              {getNetworkMode() === "replay" ? (
+                <>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="default"
+                    onClick={() => {
+                      showToast({
+                        title: "Simulation, not saved",
+                        message: `Simulated appeal draft created in memory for leaf ${selectedLeaf.slice(0, 10)}... (Simulation, not saved)`,
+                        type: "info",
+                      });
+                      onClose();
+                    }}
+                    className="border-dashed border-amber-500/50 text-amber-700 dark:text-amber-300 hover:bg-amber-500/10"
+                    data-testid="simulate-appeal-button"
+                  >
+                    Try preview: Simulation, not saved
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="default"
+                    onClick={async () => {
+                      await navigator.clipboard.writeText("pnpm dev");
+                      showToast({
+                        title: "Command Copied",
+                        message: "Copied 'pnpm dev' to clipboard. Run the local chain to broadcast live transactions.",
+                        type: "success",
+                      });
+                    }}
+                    className="bg-ink hover:bg-ink/90 text-surface"
+                    data-testid="run-locally-submit"
+                  >
+                    Run locally to submit
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="default"
+                  onClick={handleSubmit}
+                  loading={isSubmitting}
+                >
+                  Confirm & broadcast appeal
+                </Button>
+              )}
             </>
           ) : (
             <>

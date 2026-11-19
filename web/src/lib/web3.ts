@@ -1,7 +1,9 @@
 import { ethers, Interface } from "ethers";
-import deploymentsData from "../generated/deployments.json";
+import { FRAUD_REGISTRY_ABI, APPEAL_DAO_ABI } from "../abi";
+import { deploymentConfig, RegistryDeployment } from "./deploymentConfig";
 import seedsData from "../generated/seeds.json";
 import { getBankById, BankConfig } from "./banks";
+
 import {
   KavachMerkleTree,
   computeLeaf,
@@ -14,29 +16,11 @@ import {
 
 export const HARDHAT_RPC = "http://127.0.0.1:8545";
 
-export const FRAUD_REGISTRY_ABI = (deploymentsData as any).contracts?.FraudRegistry?.abi || [];
-export const APPEAL_DAO_ABI = (deploymentsData as any).contracts?.AppealDAO?.abi || [];
-
 const fraudInterface = new Interface(FRAUD_REGISTRY_ABI);
 const daoInterface = new Interface(APPEAL_DAO_ABI);
 
-export interface RegistryDeployment {
-  chainId: number;
-  verifier: string;
-  fraudRegistry: string;
-  appealDAO: string;
-  flagStake: string;
-  consortiumSalt: string;
-}
-
-export const deploymentConfig: RegistryDeployment = {
-  chainId: deploymentsData.chainId,
-  verifier: (deploymentsData as any).contracts?.Groth16Verifier?.address || "",
-  fraudRegistry: (deploymentsData as any).contracts?.FraudRegistry?.address || "",
-  appealDAO: (deploymentsData as any).contracts?.AppealDAO?.address || "",
-  flagStake: deploymentsData.flagStake || "50000000000000000",
-  consortiumSalt: deploymentsData.consortiumSalt || "888777666555444333222111000999",
-};
+export { FRAUD_REGISTRY_ABI, APPEAL_DAO_ABI, deploymentConfig };
+export type { RegistryDeployment };
 
 export const CATEGORY_MAP: Record<number, { name: string; description: string }> = {
   0: { name: "Synthetic ID", description: "Fabricated PAN/Aadhaar identity" },
@@ -119,13 +103,28 @@ export function getProvider(): ethers.JsonRpcProvider {
   return cachedProvider;
 }
 
-export function getBankSigner(bankId: string): ethers.Wallet {
+export function getBankSigner(bankId: string): ethers.Signer {
   const bank = getBankById(bankId);
   if (!bank) {
     throw new Error(`Bank not found: ${bankId}`);
   }
   const provider = getProvider();
-  return new ethers.Wallet(bank.privateKey, provider);
+  if (bank.privateKey) {
+    return new ethers.Wallet(bank.privateKey, provider);
+  }
+  // For local development node, derive signer on-demand from standard test mnemonic
+  if (process.env.NEXT_PUBLIC_NETWORK !== "replay") {
+    try {
+      const mnemonic = "test test test test test test test test test test test junk";
+      const hdWallet = ethers.HDNodeWallet.fromPhrase(
+        mnemonic,
+        undefined,
+        `m/44'/60'/0'/0/${bank.accountIndex}`
+      );
+      return hdWallet.connect(provider);
+    } catch {}
+  }
+  throw new Error(`Live transaction signing is disabled in replay mode. Run locally for live transactions.`);
 }
 
 export function getFraudRegistryContract(signerOrProvider?: ethers.Signer | ethers.Provider) {
@@ -190,6 +189,8 @@ export async function getSyncedMerkleTree(): Promise<KavachMerkleTree> {
   }
 }
 
+import { getDataProvider } from "./dataProvider";
+
 export interface VerificationResult {
   isFlagged: boolean;
   leaf: string;
@@ -202,153 +203,20 @@ export interface VerificationResult {
   expiresAt?: string;
   txHash?: string;
   proof?: Groth16ProofSolidity;
+  verifiedLocally?: boolean;
+  verificationLabel?: string;
 }
 
 /**
- * Executes full client-side zero-knowledge screening for an applicant.
+ * Executes full zero-knowledge screening for an applicant via DataProvider.
  */
 export async function evaluateApplicant(
   rawId: string,
   bankId: string,
   onStepProgress?: (step: number, label: string) => void
 ): Promise<VerificationResult> {
-  onStepProgress?.(1, "Normalizing identifier and computing Poseidon commitment");
-  const normalizedId = normaliseId(rawId);
-  const salt = BigInt(deploymentConfig.consortiumSalt);
-  const leaf = await computeLeaf(normalizedId, salt);
-  const nullifier = await computeNullifier(leaf);
-
-  onStepProgress?.(2, "Rebuilding incremental Merkle tree from on-chain event logs");
-  const tree = await getSyncedMerkleTree();
-  const leafIndex = tree.indexOf(leaf);
-
-  if (leafIndex === -1 || leaf === 0n) {
-    // Clean applicant - not in fraud registry
-    onStepProgress?.(3, "Applicant identity commitment not present in consortium Merkle tree");
-    const currentRoot = await tree.getRoot();
-    return {
-      isFlagged: false,
-      leaf: "0x" + leaf.toString(16),
-      nullifier: "0x" + nullifier.toString(16),
-      root: "0x" + currentRoot.toString(16),
-      ringVelocity: 0,
-      distinctBankHits: 0,
-    };
-  }
-
-  // Active flag present in tree: generate witness and proof
-  onStepProgress?.(3, "Identity match detected in tree; generating Merkle inclusion witness");
-  const merkleProof = await tree.generateProof(leafIndex);
-
-  onStepProgress?.(4, "Computing Groth16 zero-knowledge proof");
-  const isBrowser = typeof window !== "undefined";
-
-  let proof: Groth16ProofSolidity;
-
-  if (isBrowser && typeof Worker !== "undefined") {
-    try {
-      const { ensureZkArtifacts, generateProofViaWorker } = await import("./zk-prover-client");
-      const { wasmBuffer, zkeyBuffer } = await ensureZkArtifacts((progress) => {
-        onStepProgress?.(4, progress.detail);
-      });
-
-      const circuitInput = {
-        idNumber: normalizedId.toString(),
-        salt: salt.toString(),
-        pathElements: merkleProof.pathElements.map((e) => BigInt(e).toString()),
-        pathIndices: merkleProof.pathIndices,
-        root: merkleProof.root.toString(),
-        nullifier: nullifier.toString(),
-      };
-
-      const workerRes = await generateProofViaWorker(
-        circuitInput,
-        wasmBuffer,
-        zkeyBuffer,
-        (_stage, _pct, detail) => onStepProgress?.(4, detail)
-      );
-      proof = workerRes.proof;
-    } catch (workerErr) {
-      console.warn("Web Worker proving fallback to direct prover:", workerErr);
-      const proofResult = await generateMembershipProof(rawId, salt, tree, {
-        wasmPath: "/zk/membership.wasm",
-        zkeyPath: "/zk/membership_final.zkey",
-      });
-      if (!proofResult.proof) throw new Error("Failed to generate zero-knowledge proof");
-      proof = proofResult.proof;
-    }
-  } else {
-    const wasmPath = isBrowser ? "/zk/membership.wasm" : undefined;
-    const zkeyPath = isBrowser ? "/zk/membership_final.zkey" : undefined;
-    const proofResult = await generateMembershipProof(rawId, salt, tree, {
-      wasmPath,
-      zkeyPath,
-    });
-    if (!proofResult.proof) {
-      throw new Error("Failed to generate zero-knowledge proof for applicant");
-    }
-    proof = proofResult.proof;
-  }
-
-  onStepProgress?.(5, "Submitting proof to FraudRegistry to record velocity hit");
-  const signer = getBankSigner(bankId);
-  const registry = getFraudRegistryContract(signer);
-
-  let txHash = "";
-  let ringVelocity = 1;
-
-  try {
-    const tx = await registry.verifyAndRecordHit(
-      [BigInt(proof.a[0]), BigInt(proof.a[1])],
-      [
-        [BigInt(proof.b[0][0]), BigInt(proof.b[0][1])],
-        [BigInt(proof.b[1][0]), BigInt(proof.b[1][1])],
-      ],
-      [BigInt(proof.c[0]), BigInt(proof.c[1])],
-      [BigInt(proof.input[0]), BigInt(proof.input[1])]
-    );
-    const receipt = await tx.wait();
-    txHash = receipt.hash;
-    const hits = await registry.distinctBankHits(nullifier.toString());
-    ringVelocity = Number(hits);
-  } catch (err: any) {
-    console.warn("verifyAndRecordHit warning/revert:", err);
-    // If already queried or reverted, read current distinctBankHits
-    try {
-      const hits = await registry.distinctBankHits(nullifier.toString());
-      ringVelocity = Math.max(Number(hits), 1);
-    } catch {}
-  }
-
-  // Fetch on-chain flag metadata
-  let flaggerBank = "Consortium Bank";
-  let categoryName = "Loan Stacking";
-  let expiresAt = "30 days";
-
-  try {
-    const flagData = await registry.flags(leaf.toString());
-    if (flagData && flagData.bank !== ethers.ZeroAddress) {
-      flaggerBank = flagData.bank;
-      categoryName = CATEGORY_MAP[Number(flagData.category)]?.name || "Suspicious Activity";
-      expiresAt = new Date(Number(flagData.expiresAt) * 1000).toLocaleDateString();
-    }
-  } catch {}
-
-  onStepProgress?.(6, `Screening complete: Match confirmed across ${ringVelocity} member banks`);
-
-  return {
-    isFlagged: true,
-    leaf: "0x" + leaf.toString(16),
-    nullifier: "0x" + nullifier.toString(16),
-    root: "0x" + merkleProof.root.toString(16),
-    ringVelocity,
-    distinctBankHits: ringVelocity,
-    flaggerBank,
-    categoryName,
-    expiresAt,
-    txHash,
-    proof,
-  };
+  const provider = getDataProvider();
+  return provider.screenApplicant(rawId, bankId, onStepProgress);
 }
 
 /**

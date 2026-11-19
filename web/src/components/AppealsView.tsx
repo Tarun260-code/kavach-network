@@ -22,6 +22,7 @@ import {
   getSyncedMerkleTree,
   decodeContractError,
 } from "@/lib/web3";
+import { getNetworkMode, getDataProvider } from "@/lib/dataProvider";
 import { getAllBanks } from "@/lib/banks";
 import seedsData from "@/generated/seeds.json";
 import { FileAppealSheet } from "./FileAppealSheet";
@@ -124,9 +125,41 @@ export function AppealsView() {
     confirmLabel: "Confirm",
   });
 
-  // Sync Appeals from On-Chain DAO
+  // Sync Appeals from On-Chain DAO or Replay Snapshot
   const syncAppeals = useCallback(async () => {
     try {
+      if (getNetworkMode() === "replay") {
+        const records = await getDataProvider().getAppeals();
+        const activeList: AppealItem[] = [];
+        const resolvedList: AppealItem[] = [];
+
+        records.forEach((app) => {
+          const item: AppealItem = {
+            id: app.id,
+            leaf: app.leaf,
+            disputedId: app.disputedId,
+            initiator: app.initiator,
+            flagger: app.flagger,
+            categoryName: app.categoryName,
+            evidenceURI: app.evidenceURI,
+            defenceURI: app.defenceURI,
+            createdAt: app.createdAt,
+            deadline: app.deadline,
+            votesFor: app.votesFor,
+            votesAgainst: app.votesAgainst,
+            requiredQuorum: app.requiredQuorum,
+            status: app.status,
+            votedBanks: app.votedBanks,
+          };
+          if (app.status === "Active") activeList.push(item);
+          else resolvedList.push(item);
+        });
+
+        setAppeals(activeList);
+        setResolvedAppeals(resolvedList);
+        return;
+      }
+
       const provider = getProvider();
       const dao = getAppealDAOContract(provider);
       const countBig = await dao.appealCount().catch(() => 1n);
@@ -860,6 +893,8 @@ export function AppealsView() {
           isOpen={confirmDialog.isOpen}
           onClose={() => setConfirmDialog((prev) => ({ ...prev, isOpen: false }))}
           onConfirm={handleConfirmAction}
+          isReplayMode={getNetworkMode() === "replay"}
+          replayCommand="pnpm dev"
           title={confirmDialog.title}
           description={confirmDialog.description}
           consequences={confirmDialog.consequences}
